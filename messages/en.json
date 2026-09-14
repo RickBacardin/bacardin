@@ -91,11 +91,11 @@
     "items": [
       "Github sync",
       "Harness",
-      "Server AI Agent",
       "MCP",
       "Tokenomics",
-      "Vibecoding",
       "CI/CD",
+      "Server AI Agent",
+      "Vibecoding",
       "LLM Evals"
     ]
   },
