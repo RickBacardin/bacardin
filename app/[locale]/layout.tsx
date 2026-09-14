@@ -21,33 +21,48 @@ const googleSans = Google_Sans({
   subsets: ["cyrillic", "latin"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://bacardin.vercel.app"),
-  title: {
-    default: "Эрнест фон Шульдайс — Lead Product Designer",
-    template: "%s | Bacardin",
-  },
-  description:
-    "Lead Product Designer. Редизайн продукта для топ-менеджмента Сбербанка. 6+ лет опыта в B2E/B2C продуктах.",
-  icons: {
-    icon: "/icon.svg",
-    apple: "/apple-icon.svg",
-  },
-  verification: {
-    yandex: "f4eaaed6e44dd198",
-  },
-  openGraph: {
-    type: "website",
-    locale: "ru_RU",
-    alternateLocale: "en_US",
-    siteName: "Bacardin Portfolio",
-    images: [{ url: "/Preview.png", width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-  },
-  robots: { index: true, follow: true },
-};
+// OG-картинка зависит от локали: /ru -> русский герой, /en -> английский
+const OG_IMAGES = {
+  ru: "/Preview.png",
+  en: "/Preview-en.png",
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const ogImage = OG_IMAGES[locale as keyof typeof OG_IMAGES] ?? OG_IMAGES.ru;
+
+  return {
+    metadataBase: new URL("https://bacardin.vercel.app"),
+    title: {
+      default: "Эрнест фон Шульдайс — Lead Product Designer",
+      template: "%s | Bacardin",
+    },
+    description:
+      "Lead Product Designer. С нуля пересобрал B2E-платформу для Правления Сбербанка и 300+ Agile-команд.",
+    icons: {
+      icon: "/icon.svg",
+      apple: "/apple-icon.svg",
+    },
+    verification: {
+      yandex: "f4eaaed6e44dd198",
+    },
+    openGraph: {
+      type: "website",
+      locale: "ru_RU",
+      alternateLocale: "en_US",
+      siteName: "Bacardin Portfolio",
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 
 interface LocaleLayoutProps {
