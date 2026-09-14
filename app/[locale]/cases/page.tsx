@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { CasesHero } from "@/components/sections/CasesHero";
-import { CasesList } from "@/components/sections/CasesList";
+import { getTranslations } from "next-intl/server";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { CaseNavigation } from "@/components/layout/CaseNavigation";
+import { VibecodeCaseView } from "@/components/case/VibecodeCaseView";
 import { getVibecodeCases } from "@/lib/cases";
 
 interface CasesPageProps {
@@ -14,14 +14,17 @@ export async function generateMetadata({
 }: CasesPageProps): Promise<Metadata> {
   const { locale } = await params;
   const isRu = locale === "ru";
+  const authorName = isRu ? "Эрнест фон Шульдайс" : "Ernest von Shuldays";
+  const title = isRu
+    ? "Вайбкодинг компоненты"
+    : "Vibecoding components";
+  const description = isRu
+    ? "Здесь я собираю разные интересные способы завайбкодить простые элементы интересным способом"
+    : "Here I collect interesting ways to vibecode simple elements in an interesting way";
 
   return {
-    title: isRu
-      ? "Vibecode UI Кейсы — Интерактивные элементы"
-      : "Vibecode UI Cases — Interactive Elements",
-    description: isRu
-      ? "Интерактивные UI элементы и анимации, созданные с помощью кода. Примеры vibecoding от продуктового дизайнера."
-      : "Interactive UI elements and animations created with code. Vibecoding examples by a product designer.",
+    title: `${title} | ${authorName}`,
+    description,
     alternates: {
       canonical: `/${locale}/cases`,
       languages: { ru: "/ru/cases", en: "/en/cases" },
@@ -31,12 +34,14 @@ export async function generateMetadata({
 
 export default async function CasesPage({ params }: CasesPageProps) {
   const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "vibecodePage" });
 
-  // Показываем только вайбкод кейсы
+  // Показываем только опубликованные вайбкод кейсы в заданном порядке
   const vibecodeCases = await getVibecodeCases();
+  const titleWithCount = `${t("title")} (${vibecodeCases.length})`;
 
   return (
-    <main className="min-h-screen">
+    <main className="bg-background min-h-screen">
       {/* Навигация с кнопкой назад */}
       <CaseNavigation />
 
@@ -44,8 +49,16 @@ export default async function CasesPage({ params }: CasesPageProps) {
       <div className="right-6 bottom-6 z-50 fixed">
         <LanguageSwitcher />
       </div>
-      <CasesHero />
-      <CasesList cases={vibecodeCases} />
+
+      {/* Вид кейса для вайбкодинг компонентов */}
+      <VibecodeCaseView
+        cases={vibecodeCases}
+        locale={locale}
+        title={titleWithCount}
+        description={t("description")}
+        fullScreenLabel={t("fullScreen")}
+        noCasesLabel={t("noCases")}
+      />
     </main>
   );
 }

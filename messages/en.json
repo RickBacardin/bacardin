@@ -137,6 +137,12 @@
     "noCases": "Cases coming soon",
     "telegramButton": "Go to telegram?"
   },
+  "vibecodePage": {
+    "title": "Vibecoding components",
+    "description": "Here I collect interesting ways to vibecode simple elements in an interesting way",
+    "fullScreen": "Full screen",
+    "noCases": "Cases coming soon"
+  },
   "cases": {
     "title": "Cases",
     "hint": "Click on the card to view",
