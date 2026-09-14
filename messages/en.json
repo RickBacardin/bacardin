@@ -87,18 +87,16 @@
     }
   },
   "tags": {
-    "title": "Tags",
+    "title": "AI Skills",
     "items": [
-      "Product Strategy",
-      "Team Lead",
-      "Mentorship",
-      "Design Ops",
-      "AI-First Design",
-      "LLM & Agents",
-      "Code Prototyping",
-      "B2C Growth",
-      "Data Driven",
-      "JTBD"
+      "Github sync",
+      "Harness",
+      "Server AI Agent",
+      "AI Unit Economics",
+      "Vibecoding",
+      "CI/CD",
+      "MCP",
+      "LLM Evals"
     ]
   },
   "testimonials": {
