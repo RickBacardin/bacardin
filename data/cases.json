@@ -849,9 +849,9 @@
   },
   {
     "id": "mkb6qlltgq9abjbichq",
-    "slug": "fitnes-treker",
+    "slug": "dizayn-fitnes-prilozheniya-",
     "type": "gallery",
-    "title": "Фитнес трекер",
+    "title": "Дизайн фитнес приложения ",
     "description": "Mindful Fitness App для осознанных тренировок. B2C-стартап, объединяющий физическую активность с трекингом ментального здоровья для снижения оттока пользователей",
     "date": "2026-01-12",
     "category": "design",
@@ -872,10 +872,10 @@
     "componentUrl": "",
     "content": "",
     "published": true,
-    "featuredOnHome": false,
-    "homeOrder": null,
+    "featuredOnHome": true,
+    "homeOrder": 1,
     "createdAt": "2026-01-12T13:15:03.521Z",
-    "updatedAt": "2026-09-07T17:52:18.101Z",
+    "updatedAt": "2026-09-14T12:13:39.779Z",
     "title_en": "Fitness Tracker",
     "description_en": "Mindful Fitness App for conscious workouts. A B2C startup integrating physical activity with mental health tracking to reduce user churn",
     "vibecodeOrder": null,
@@ -1035,8 +1035,153 @@
         "cards": []
       }
     },
-    "subtitle": "HealthTech, B2C",
-    "subtitle_en": "HealthTech, B2C"
+    "subtitle": "Продукт с нуля",
+    "subtitle_en": "HealthTech, B2C",
+    "logo": "/images/cases/1789387750783-lco5jt.svg",
+    "accentColor": "#C4B8F8",
+    "tags": [],
+    "inProgress": false,
+    "items": [
+      {
+        "id": "bxvzjr60s",
+        "type": "preview",
+        "title": "Превью",
+        "variant": "tabs",
+        "interval": 3,
+        "images": [
+          {
+            "id": "kd8lziynk",
+            "url": "/images/cases/1789387873848-6qdhvf.png",
+            "title": ""
+          }
+        ]
+      },
+      {
+        "id": "bk0xwoha3",
+        "type": "heading",
+        "title": "Кейс"
+      },
+      {
+        "id": "kkltilg0r",
+        "type": "card",
+        "title": "Контекст",
+        "description": "Когда мобильный стартап моего приятеля оказался на грани срыва из-за зашедшего в тупик эмоционального дизайна, мой друг предложил подключился к задаче, чтобы вытащить продукт из кризиса к первому релизу",
+        "fullWidth": true
+      },
+      {
+        "id": "h5e7pn5ds",
+        "type": "card",
+        "title": "Ситуация",
+        "description": "Я дипломатично убедил стейкхолдера обкатать базовый UX на реальном фидбеке, не перегружая первый билд эмоциональным дизайном до нахождения PMF",
+        "fullWidth": true
+      },
+      {
+        "id": "d0dvq2ohm",
+        "type": "card",
+        "title": "Задача",
+        "description": "Стояла задача выкатить стартовую версию, но я спроектировал гибкую UI-базу, сэкономив ресурсы будущей разработки",
+        "fullWidth": true
+      },
+      {
+        "id": "pmnevmezm",
+        "type": "card",
+        "title": "Результат",
+        "description": "Показ макетов на устройствах в связке с прототипом Apple Watch вызвал вау-эффект, подтвердив готовность экосистемы к росту",
+        "fullWidth": true
+      },
+      {
+        "id": "ik5qizcpa",
+        "type": "heading",
+        "title": "Вызовы"
+      },
+      {
+        "id": "sclco77ne",
+        "type": "card",
+        "title": "Помог понять",
+        "description": "Столкнувшись с желанием клиента вынести все функции на главный экран, я бережно обосновал риски когнитивной перегрузки через наглядные бенчмарки, отстояв чистый фокус первого входа",
+        "fullWidth": true
+      },
+      {
+        "id": "171teszm6",
+        "type": "card",
+        "title": "Разный взгляд",
+        "description": "Мы со стейкхолдером по-разному понимали слово \"минимализм\", из-за чего возникали споры, пока я не собрал кликабельный интерактивный прототип, заговорив с клиентом на одном языке артефактов",
+        "fullWidth": true
+      },
+      {
+        "id": "6fu6cjqz2",
+        "type": "card",
+        "title": "База не значит плохо",
+        "description": "Нам требовалось спроектировать двадцать экранов за две недели до дедлайна, поэтому я временно отказался от глубокой детализации в пользу сборки макетов из готовой библиотеки нативных компонентов",
+        "fullWidth": true
+      }
+    ],
+    "items_en": [
+      {
+        "id": "u1mds9goy",
+        "type": "heading",
+        "title": "Context"
+      },
+      {
+        "id": "6gbmcdhth",
+        "type": "card",
+        "title": "🔎 Expectations",
+        "description": "The client needed more than \"just another tracker\"; they required a Unique Value Proposition (UVP) to stand out during investment pitches",
+        "fullWidth": true
+      },
+      {
+        "id": "govbzfk7q",
+        "type": "card",
+        "title": "🎯 Responsibility ",
+        "description": "In charge of creating the product concept and the MVP's visual language. Managed a mid designer to ensure high-quality execution",
+        "fullWidth": false
+      },
+      {
+        "id": "cgloxrqxs",
+        "type": "card",
+        "title": "🤝 Communication",
+        "description": "Worked directly with the startup founder. Translated abstract ideas about \"emotions\" into concrete UX mechanics and interface solutions",
+        "fullWidth": false
+      },
+      {
+        "id": "tk6cgdv8v",
+        "type": "heading",
+        "title": "Actions"
+      },
+      {
+        "id": "t2lz08r0k",
+        "type": "card",
+        "title": "🗓 Leadership",
+        "description": "Planned the project timeline under a tight 3-week deadline. Distributed tasks between strategic art direction (my part) and UI production (designer)",
+        "fullWidth": false
+      },
+      {
+        "id": "ltk7hjsu4",
+        "type": "card",
+        "title": "🎨 Concept",
+        "description": "Developed the core visual concept (Look & Feel) and delegated the asset creation. Maintained quality through regular design reviews",
+        "fullWidth": false
+      },
+      {
+        "id": "994ko9w12",
+        "type": "heading",
+        "title": "Impact"
+      },
+      {
+        "id": "z3b8r53mr",
+        "type": "card",
+        "title": "🚀 Market fit",
+        "description": "In a saturated fitness app market, we created a product that stands out through empathy and a refined dark aesthetic",
+        "fullWidth": false
+      },
+      {
+        "id": "2duwla22x",
+        "type": "card",
+        "title": "📦 Design Ops",
+        "description": "Delivered a structured UI Kit, not just mockups, enabling the client to scale and develop the MVP rapidly",
+        "fullWidth": false
+      }
+    ]
   },
   {
     "id": "mkejkh4k9ahs3yeqhrm",
