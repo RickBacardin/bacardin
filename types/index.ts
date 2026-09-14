@@ -124,6 +124,7 @@ export interface Case {
   featuredOnHome: boolean; // @deprecated - используйте homeOrder
   homeOrder: number | null; // null = не показывать, 1-6 = позиция на главной
   vibecodeOrder: number | null; // null = без сортировки, 1+ = позиция на странице /cases
+  previewHeight?: number; // Высота превью в px на странице /cases (по умолчанию 600)
   inProgress?: boolean; // Кейс в работе (отображается в сетке, но некликабелен)
   // Новая лента элементов
   items?: CaseItem[];
@@ -162,6 +163,7 @@ export interface CreateCaseData {
   featuredOnHome?: boolean;
   homeOrder?: number | null;
   vibecodeOrder?: number | null;
+  previewHeight?: number;
   inProgress?: boolean;
   items?: CaseItem[];
   items_en?: CaseItem[];
@@ -197,6 +199,7 @@ export interface UpdateCaseData {
   featuredOnHome?: boolean;
   homeOrder?: number | null;
   vibecodeOrder?: number | null;
+  previewHeight?: number;
   inProgress?: boolean;
   items?: CaseItem[];
   items_en?: CaseItem[];

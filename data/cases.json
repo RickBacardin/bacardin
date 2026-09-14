@@ -20,6 +20,7 @@
     "title_en": "Slider",
     "description_en": "Hold down the mouse button on the component and move it to the side",
     "vibecodeOrder": null,
+    "previewHeight": 400,
     "subtitle": "test",
     "subtitle_en": "test"
   },

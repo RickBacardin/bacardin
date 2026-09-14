@@ -20,6 +20,8 @@ export const VibecodeItemPreview = ({
   const title =
     locale === "en" && caseItem.title_en ? caseItem.title_en : caseItem.title;
 
+  const previewHeight = caseItem.previewHeight;
+
   return (
     <motion.div className="w-full mb-[56px]" variants={variants}>
       {/* Верхняя строка: Название компонента слева + "На весь экран" справа */}
@@ -46,8 +48,14 @@ export const VibecodeItemPreview = ({
       <article className="relative bg-[#1F1C18] p-3 rounded-[28px] w-full overflow-hidden">
         {/* Внутренний контейнер с интерактивным iframe */}
         <div
-          className="relative rounded-2xl w-full h-[420px] md:h-[600px] overflow-hidden"
-          style={{ backgroundColor: "#16130F" }}
+          className={`relative rounded-2xl w-full overflow-hidden ${
+            !previewHeight ? "h-[420px] md:h-[600px]" : ""
+          }`}
+          style={{
+            backgroundColor: "#16130F",
+            height: previewHeight ? `${previewHeight}px` : undefined,
+            maxHeight: previewHeight ? "85vh" : undefined,
+          }}
         >
           {caseItem.componentUrl ? (
             <iframe

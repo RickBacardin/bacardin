@@ -70,6 +70,7 @@ export interface CaseFormData {
   images: string[];
   galleryLayout: GalleryLayout;
   componentUrl?: string;
+  previewHeight?: number;
   tags?: string[];
   content: string;
   published: boolean;
@@ -221,6 +222,7 @@ export function CaseForm({
     images: [],
     galleryLayout: "stack",
     componentUrl: "",
+    previewHeight: undefined,
     tags: [],
     content: "",
     published: false,
@@ -279,6 +281,7 @@ export function CaseForm({
       images: initialData.images || [],
       galleryLayout: initialData.galleryLayout || "stack",
       componentUrl: initialData.componentUrl || "",
+      previewHeight: initialData.previewHeight,
       tags: initialData.tags || [],
       content: initialData.content || "",
       published: initialData.published,
@@ -600,6 +603,29 @@ export function CaseForm({
                   </div>
                 </>
               ) : null}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="previewHeight">Высота превью в списке /cases (px)</Label>
+              <Input
+                id="previewHeight"
+                type="number"
+                min={200}
+                max={1600}
+                step={10}
+                value={formData.previewHeight ?? ""}
+                onChange={(e) => {
+                  const val = e.target.value ? parseInt(e.target.value, 10) : undefined;
+                  setFormData((prev) => ({
+                    ...prev,
+                    previewHeight: val && !isNaN(val) ? val : undefined,
+                  }));
+                }}
+                placeholder="600 (по умолчанию)"
+              />
+              <p className="text-xs text-muted-foreground">
+                Высота превью-области на странице вайбкод компонентов (например, 400 для слайдера). По умолчанию 600px.
+              </p>
             </div>
           </motion.div>
         ) : (
