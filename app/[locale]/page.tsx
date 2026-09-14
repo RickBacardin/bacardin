@@ -21,11 +21,11 @@ export async function generateMetadata({
 
   return {
     title: isRu
-      ? "Эрнест фон Шульдайс — Lead Product Designer"
-      : "Ernest von Shuldays — Lead Product Designer",
+      ? "Эрнест фон Шульдайс — AI Design Engineer"
+      : "Ernest von Shuldays — AI Design Engineer",
     description: isRu
-      ? "Lead Product Designer. Редизайн B2E экосистемы для 25000+ сотрудников Сбербанка. NPS +6 п.п., CSI +2 пункта."
-      : "Staff Product Designer. B2E ecosystem redesign for 25,000+ Sberbank employees. NPS +6 pp, CSI +2 points.",
+      ? "AI Design Engineer. Редизайн B2E экосистемы для 25000+ сотрудников Сбербанка. NPS +6 п.п., CSI +2 пункта."
+      : "AI Design Engineer. B2E ecosystem redesign for 25,000+ Sberbank employees. NPS +6 pp, CSI +2 points.",
     alternates: {
       canonical: `/${locale}`,
       languages: { ru: "/ru", en: "/en" },

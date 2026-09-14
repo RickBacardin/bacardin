@@ -38,11 +38,11 @@ export async function generateMetadata({
   return {
     metadataBase: new URL("https://bacardin.vercel.app"),
     title: {
-      default: "Эрнест фон Шульдайс — Lead Product Designer",
+      default: "Эрнест фон Шульдайс — AI Design Engineer",
       template: "%s | Bacardin",
     },
     description:
-      "Lead Product Designer. С нуля пересобрал B2E-платформу для Правления Сбербанка и 300+ Agile-команд.",
+      "AI Design Engineer. С нуля пересобрал B2E-платформу для Правления Сбербанка и 300+ Agile-команд.",
     icons: {
       icon: "/icon.svg",
       apple: "/apple-icon.svg",
