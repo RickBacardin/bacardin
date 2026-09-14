@@ -875,8 +875,8 @@
     "featuredOnHome": true,
     "homeOrder": 1,
     "createdAt": "2026-01-12T13:15:03.521Z",
-    "updatedAt": "2026-09-14T12:13:39.779Z",
-    "title_en": "Fitness Tracker",
+    "updatedAt": "2026-09-14T12:21:52.014Z",
+    "title_en": "Fitness App Design",
     "description_en": "Mindful Fitness App for conscious workouts. A B2C startup integrating physical activity with mental health tracking to reduce user churn",
     "vibecodeOrder": null,
     "highlights": [
@@ -1036,7 +1036,7 @@
       }
     },
     "subtitle": "Продукт с нуля",
-    "subtitle_en": "HealthTech, B2C",
+    "subtitle_en": "Product from scratch",
     "logo": "/images/cases/1789387750783-lco5jt.svg",
     "accentColor": "#C4B8F8",
     "tags": [],
@@ -1065,7 +1065,7 @@
         "id": "kkltilg0r",
         "type": "card",
         "title": "Контекст",
-        "description": "Когда мобильный стартап моего приятеля оказался на грани срыва из-за зашедшего в тупик эмоционального дизайна, мой друг предложил подключился к задаче, чтобы вытащить продукт из кризиса к первому релизу",
+        "description": "Когда мобильный стартап моего приятеля оказался на грани срыва из-за зашедшего в тупик эмоционального дизайна, мой друг предложил подключиться к задаче, чтобы вытащить продукт из кризиса к первому релизу",
         "fullWidth": true
       },
       {
@@ -1118,68 +1118,77 @@
     ],
     "items_en": [
       {
-        "id": "u1mds9goy",
-        "type": "heading",
-        "title": "Context"
+        "id": "en-prev-1",
+        "type": "preview",
+        "title": "Preview",
+        "variant": "tabs",
+        "interval": 3,
+        "images": [
+          {
+            "id": "en-prev-1-a",
+            "url": "/images/cases/1789387873848-6qdhvf.png",
+            "title": ""
+          }
+        ]
       },
       {
-        "id": "6gbmcdhth",
+        "id": "en-h-1",
+        "type": "heading",
+        "title": "Case"
+      },
+      {
+        "id": "en-c-1",
         "type": "card",
-        "title": "🔎 Expectations",
-        "description": "The client needed more than \"just another tracker\"; they required a Unique Value Proposition (UVP) to stand out during investment pitches",
+        "title": "Context",
+        "description": "When my friend's mobile startup was on the verge of collapse because its emotional design had reached a dead end, he asked me to join the project and pull the product out of the crisis in time for the first release",
         "fullWidth": true
       },
       {
-        "id": "govbzfk7q",
+        "id": "en-c-2",
         "type": "card",
-        "title": "🎯 Responsibility ",
-        "description": "In charge of creating the product concept and the MVP's visual language. Managed a mid designer to ensure high-quality execution",
-        "fullWidth": false
+        "title": "Situation",
+        "description": "I diplomatically convinced the stakeholder to validate the basic UX against real feedback, without overloading the first build with emotional design before PMF was found",
+        "fullWidth": true
       },
       {
-        "id": "cgloxrqxs",
+        "id": "en-c-3",
         "type": "card",
-        "title": "🤝 Communication",
-        "description": "Worked directly with the startup founder. Translated abstract ideas about \"emotions\" into concrete UX mechanics and interface solutions",
-        "fullWidth": false
+        "title": "Task",
+        "description": "The goal was to ship the starting version — but I designed a flexible UI foundation that saved resources for future development",
+        "fullWidth": true
       },
       {
-        "id": "tk6cgdv8v",
+        "id": "en-c-4",
+        "type": "card",
+        "title": "Result",
+        "description": "Presenting the mockups on real devices together with an Apple Watch prototype produced a wow effect, confirming the ecosystem was ready to scale",
+        "fullWidth": true
+      },
+      {
+        "id": "en-h-2",
         "type": "heading",
-        "title": "Actions"
+        "title": "Challenges"
       },
       {
-        "id": "t2lz08r0k",
+        "id": "en-c-5",
         "type": "card",
-        "title": "🗓 Leadership",
-        "description": "Planned the project timeline under a tight 3-week deadline. Distributed tasks between strategic art direction (my part) and UI production (designer)",
-        "fullWidth": false
+        "title": "Helped Them See",
+        "description": "When the client wanted to put every feature on the home screen, I carefully argued the risk of cognitive overload using clear benchmarks, defending a clean focus for the first run",
+        "fullWidth": true
       },
       {
-        "id": "ltk7hjsu4",
+        "id": "en-c-6",
         "type": "card",
-        "title": "🎨 Concept",
-        "description": "Developed the core visual concept (Look & Feel) and delegated the asset creation. Maintained quality through regular design reviews",
-        "fullWidth": false
+        "title": "Different Perspectives",
+        "description": "The stakeholder and I read the word \"minimalism\" differently, which led to friction — until I built a clickable interactive prototype and started speaking with the client in a shared language of artifacts",
+        "fullWidth": true
       },
       {
-        "id": "994ko9w12",
-        "type": "heading",
-        "title": "Impact"
-      },
-      {
-        "id": "z3b8r53mr",
+        "id": "en-c-7",
         "type": "card",
-        "title": "🚀 Market fit",
-        "description": "In a saturated fitness app market, we created a product that stands out through empathy and a refined dark aesthetic",
-        "fullWidth": false
-      },
-      {
-        "id": "2duwla22x",
-        "type": "card",
-        "title": "📦 Design Ops",
-        "description": "Delivered a structured UI Kit, not just mockups, enabling the client to scale and develop the MVP rapidly",
-        "fullWidth": false
+        "title": "Solid Base Isn't a Compromise",
+        "description": "We had to design twenty screens in two weeks before the deadline, so I temporarily traded deep detail for assembling the mockups from a ready library of native components",
+        "fullWidth": true
       }
     ]
   },
