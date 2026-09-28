@@ -100,7 +100,7 @@ export const CaseCard = ({ caseItem, locale, uiElementLabel }: CaseCardProps) =>
 
   const cardContent = (
     <article 
-      className={`relative h-[380px] sm:h-[500px] md:h-[380px] rounded-[28px] p-3 flex flex-col gap-3 group bg-[#1F1C18] overflow-hidden ${
+      className={`relative w-full rounded-[28px] p-3 flex flex-col gap-3 group bg-[#1F1C18] overflow-hidden ${
         isInProgress ? "cursor-default select-none" : "cursor-pointer"
       }`}
     >
@@ -112,15 +112,15 @@ export const CaseCard = ({ caseItem, locale, uiElementLabel }: CaseCardProps) =>
           opacity: isHovering ? 1 : 0,
         }}
       />
-      {/* Блок с превью картинкой */}
+      {/* Блок с превью картинкой с фиксированным соотношением сторон 1320/870 (~1.517) */}
       <div 
-        className="flex-1 rounded-2xl overflow-hidden relative z-10"
+        className="w-full aspect-[44/29] rounded-2xl overflow-hidden relative z-10"
         style={{ backgroundColor: "#16130F" }}
       >
         {caseItem.coverImage ? (
           <motion.div
             style={{ x: imageX, y: imageY }}
-            className="absolute inset-[-20px]"
+            className="absolute inset-[-15px]"
           >
             <Image
               src={caseItem.coverImage}
