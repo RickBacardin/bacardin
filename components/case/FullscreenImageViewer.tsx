@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, WheelEvent } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { CloseIcon } from "@/components/ui/icons/CloseIcon";
@@ -24,10 +24,18 @@ export const FullscreenImageViewer = ({
 }: FullscreenImageViewerProps) => {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Сброс масштаба при открытии нового изображения
+  useEffect(() => {
+    if (isOpen) {
+      setScale(1);
+    }
+  }, [isOpen, imageUrl]);
 
   // Блокировка скролла страницы при открытом модале и обработка клавиши Esc
   useEffect(() => {
@@ -49,6 +57,14 @@ export const FullscreenImageViewer = ({
     };
   }, [isOpen, onClose]);
 
+  // Зум колесиком мыши / тачпадом (Pinch / Wheel zoom)
+  const handleWheel = (e: WheelEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
+    setScale((prevScale) => Math.min(Math.max(prevScale * zoomFactor, 0.5), 5));
+  };
+
   if (!mounted) return null;
 
   return createPortal(
@@ -59,10 +75,10 @@ export const FullscreenImageViewer = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
-          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md overflow-hidden flex flex-col"
+          className="fixed inset-0 z-[100] bg-black overflow-hidden select-none"
         >
-          {/* Кнопка закрытия в стиле навбара вверху справа */}
-          <div className="fixed top-[28px] right-[32px] z-[110]">
+          {/* Кнопка закрытия поверх всего в правом верхнем углу */}
+          <div className="fixed top-[28px] right-[32px] z-[120]">
             <MagneticButton
               onClick={onClose}
               aria-label="Закрыть"
@@ -72,21 +88,23 @@ export const FullscreenImageViewer = ({
             </MagneticButton>
           </div>
 
-          {/* Область перетаскивания и зума картинки */}
+          {/* Область просмотра на весь экран с возможностью перемещения и зума */}
           <div
             ref={containerRef}
-            className="flex-1 w-full h-full flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing p-4 md:p-8"
+            onWheel={handleWheel}
+            className="w-full h-full flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing"
           >
             <motion.div
               drag
-              dragConstraints={containerRef}
-              dragElastic={0.15}
-              className="relative max-w-none flex items-center justify-center"
+              dragConstraints={false}
+              dragElastic={0.1}
+              style={{ scale }}
+              className="relative w-full h-full flex items-center justify-center touch-none"
             >
               <img
                 src={imageUrl}
                 alt={altText}
-                className="max-w-[95vw] md:max-w-[90vw] max-h-[85vh] md:max-h-[90vh] object-contain rounded-2xl shadow-2xl select-none pointer-events-none"
+                className="w-full h-full min-w-full min-h-full object-cover select-none pointer-events-none"
                 draggable={false}
               />
             </motion.div>
