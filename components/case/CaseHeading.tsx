@@ -19,7 +19,7 @@ export const CaseHeading = ({
   return (
     <motion.h2
       className={cn(
-        "mt-[52px] mb-[32px] font-medium text-[28px] leading-[36px]",
+        "mt-[52px] mb-[32px] font-medium text-[28px] leading-[36px] px-[12px] lg:px-0",
         className
       )}
       style={{ color: "#9C9C9C" }}

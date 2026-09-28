@@ -5,6 +5,7 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronsLeftRight } from "lucide-react";
 import type { CasePreviewItem, PreviewImage } from "@/types";
+import { FullscreenImageViewer } from "@/components/case/FullscreenImageViewer";
 
 interface CasePreviewProps {
   item: CasePreviewItem;
@@ -53,10 +54,12 @@ export const CasePreview = ({
   const activeColor = accentColor || "#F99B7D";
   const activeImage = images[activeIndex] || images[0];
 
+  const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+
   return (
     <motion.div className={cn("w-full", className)} variants={variants}>
       {/* Верхняя строка: Заголовок слева + Табы справа */}
-      <div className="flex justify-between items-baseline mt-[52px] mb-[32px]">
+      <div className="flex justify-between items-baseline mt-[52px] mb-[32px] px-[12px] lg:px-0">
         {item.title ? (
           <h2
             className="font-medium text-[28px] leading-[36px]"
@@ -106,10 +109,14 @@ export const CasePreview = ({
           activeIndex={activeIndex}
           accentColor={activeColor}
           title={item.title}
+          onOpenFullscreen={(url) => setFullscreenImage(url)}
         />
       ) : item.variant === "slideshow" ? (
         /* Режим "Гифка": мгновенное переключение без фейдов и без схлопывания высоты */
-        <div className="relative w-full overflow-hidden">
+        <div
+          className="relative w-full overflow-hidden rounded-2xl cursor-pointer"
+          onClick={() => setFullscreenImage(activeImage.url)}
+        >
           {images.map((img, idx) => (
             <img
               key={img.id || `${img.url}-${idx}`}
@@ -127,7 +134,10 @@ export const CasePreview = ({
         </div>
       ) : (
         /* Режим табов: прямое отображение активной картинки */
-        <div className="relative w-full overflow-hidden">
+        <div
+          className="relative w-full overflow-hidden rounded-2xl cursor-pointer"
+          onClick={() => setFullscreenImage(activeImage.url)}
+        >
           <img
             src={activeImage.url}
             alt={activeImage.title || item.title || "Preview image"}
@@ -135,6 +145,14 @@ export const CasePreview = ({
           />
         </div>
       )}
+
+      {/* Полноэкранный просмотр */}
+      <FullscreenImageViewer
+        isOpen={Boolean(fullscreenImage)}
+        onClose={() => setFullscreenImage(null)}
+        imageUrl={fullscreenImage || ""}
+        altText={item.title}
+      />
     </motion.div>
   );
 };
@@ -146,6 +164,7 @@ interface CaseComparisonSliderProps {
   activeIndex: number;
   accentColor: string;
   title?: string;
+  onOpenFullscreen?: (url: string) => void;
 }
 
 function CaseComparisonSlider({
@@ -154,6 +173,7 @@ function CaseComparisonSlider({
   activeIndex,
   accentColor,
   title,
+  onOpenFullscreen,
 }: CaseComparisonSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -168,36 +188,50 @@ function CaseComparisonSlider({
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    updatePosition(e.clientX);
+    // Включаем сравнение только на десктопах (>= 1024px)
+    if (window.innerWidth >= 1024) {
+      setIsHovering(true);
+      updatePosition(e.clientX);
+    }
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (e.touches[0]) {
-      updatePosition(e.touches[0].clientX);
+  const handleClick = () => {
+    const currentUrl = activeIndex === 0 ? beforeImage.url : afterImage.url;
+    if (onOpenFullscreen) {
+      onOpenFullscreen(currentUrl);
     }
   };
 
   return (
     <div
       ref={containerRef}
-      onMouseEnter={() => setIsHovering(true)}
+      onMouseEnter={() => {
+        if (typeof window !== "undefined" && window.innerWidth >= 1024) {
+          setIsHovering(true);
+        }
+      }}
       onMouseLeave={() => setIsHovering(false)}
       onMouseMove={handleMouseMove}
-      onTouchStart={() => setIsHovering(true)}
-      onTouchEnd={() => setIsHovering(false)}
-      onTouchMove={handleTouchMove}
-      className="relative w-full overflow-hidden select-none cursor-ew-resize rounded-xl group"
+      onClick={handleClick}
+      className="relative w-full overflow-hidden select-none cursor-pointer lg:cursor-ew-resize rounded-xl group"
     >
-      {/* 1. Базовый слой: картинка "До" (видна слева от разреза) */}
+      {/* 1. Базовый слой: картинка "До" (видна слева от разреза на десктопе, либо если активен таб 0) */}
       <img
         src={beforeImage.url}
         alt={beforeImage.title || `${title || "Кейс"} - До`}
-        className="w-full h-auto object-contain select-none pointer-events-none block"
+        className={cn(
+          "w-full h-auto object-contain select-none pointer-events-none",
+          activeIndex === 0 ? "block" : "hidden lg:block"
+        )}
       />
 
-      {/* 2. Верхний слой: картинка "После" (видна справа от разреза) */}
+      {/* 2. Верхний слой: картинка "После" (видна справа от разреза на десктопе, либо если активен таб 1) */}
       <div
-        className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden transition-opacity duration-200"
+        className={cn(
+          "w-full h-full pointer-events-none overflow-hidden transition-opacity duration-200",
+          "lg:absolute lg:inset-0",
+          activeIndex === 1 ? "block" : "hidden lg:block"
+        )}
         style={{
           clipPath: isHovering
             ? `polygon(${sliderPos}% 0, 100% 0, 100% 100%, ${sliderPos}% 100%)`
@@ -208,14 +242,14 @@ function CaseComparisonSlider({
         <img
           src={afterImage.url}
           alt={afterImage.title || `${title || "Кейс"} - После`}
-          className="w-full h-full object-contain select-none pointer-events-none block"
+          className="w-full h-auto lg:h-full object-contain select-none pointer-events-none block"
         />
       </div>
 
-      {/* 3. Вертикальная разделительная линия и бегунок при наведении */}
+      {/* 3. Вертикальная разделительная линия и бегунок при наведении на десктопе */}
       {isHovering && (
         <div
-          className="absolute top-0 bottom-0 pointer-events-none z-20 w-[2px] bg-white shadow-[0_0_14px_rgba(0,0,0,0.8)]"
+          className="hidden lg:block absolute top-0 bottom-0 pointer-events-none z-20 w-[2px] bg-white shadow-[0_0_14px_rgba(0,0,0,0.8)]"
           style={{ left: `${sliderPos}%` }}
         >
           {/* Бегунок по центру */}
@@ -229,7 +263,6 @@ function CaseComparisonSlider({
           </div>
         </div>
       )}
-
     </div>
   );
 }

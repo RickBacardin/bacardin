@@ -64,7 +64,8 @@ export const TelegramCTA = () => {
 
           {/* Текст кнопки */}
           <span className="relative z-10 font-medium text-[41px] lg:text-[50px] leading-[54px] text-white tracking-tight text-center px-4">
-            {t("writeToTg")}
+            <span className="sm:hidden">{t("writeToTgShort")}</span>
+            <span className="hidden sm:inline">{t("writeToTg")}</span>
           </span>
         </motion.a>
       </div>

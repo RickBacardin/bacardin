@@ -126,7 +126,8 @@
     "viewCase": "View case",
     "allCases": "All cases",
     "backToHome": "Back to home",
-    "writeToTg": "Message me on TG"
+    "writeToTg": "Message me on TG",
+    "writeToTgShort": "Message on TG"
   },
   "casesPage": {
     "title": "I love when interfaces feel alive. Here are a few elements I vibecoded:",

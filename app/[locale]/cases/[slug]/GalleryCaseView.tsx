@@ -20,6 +20,7 @@ import { CaseHeading } from "@/components/case/CaseHeading";
 import { CaseCard } from "@/components/case/CaseCard";
 import { CaseMetricCard } from "@/components/case/CaseMetricCard";
 import { CasePreview } from "@/components/case/CasePreview";
+import { FullscreenImageViewer } from "@/components/case/FullscreenImageViewer";
 
 interface GalleryCaseViewProps {
   title: string;
@@ -230,49 +231,53 @@ export const GalleryCaseView = ({
 
   const segments = segmentItems(effectiveItems);
 
+  const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+
   return (
     <motion.div
-      className="pb-24 min-h-screen"
+      className="pb-[120px] lg:pb-[200px] 2xl:pb-[286px] min-h-screen"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
     >
       {/* Шапка кейса: Логотип + Заголовок + Описание */}
-      <div className="box-content mx-auto px-6 pt-[300px] max-w-[956px]">
-        {/* Логотип кейса слева над заголовком */}
-        {logo && (
-          <motion.div
-            className="flex justify-start mb-[36px]"
+      <div className="box-content mx-auto px-[12px] lg:px-0 pt-[120px] lg:pt-[200px] 2xl:pt-[286px] pb-[12px] max-w-[956px]">
+        <div className="px-[12px] lg:px-0">
+          {/* Логотип кейса слева над заголовком */}
+          {logo && (
+            <motion.div
+              className="flex justify-start mb-[36px] lg:mb-[42px]"
+              variants={itemVariants}
+            >
+              <img
+                src={logo}
+                alt={`${title} logo`}
+                className="w-[120px] h-[120px] object-contain"
+              />
+            </motion.div>
+          )}
+
+          <motion.h1
+            className="font-bold text-[47px] text-foreground leading-[54px] tracking-tight mb-[22px]"
             variants={itemVariants}
           >
-            <img
-              src={logo}
-              alt={`${title} logo`}
-              className="w-[120px] h-[120px] object-contain"
-            />
-          </motion.div>
-        )}
+            {title}
+          </motion.h1>
 
-        <motion.h1
-          className="font-bold text-[42px] text-foreground md:text-[50px] leading-[46px] md:leading-[54px] tracking-tight"
-          variants={itemVariants}
-        >
-          {title}
-        </motion.h1>
-
-        {description && description.trim() && (
-          <motion.div
-            className="mt-[24px] mb-[12px]"
-            variants={itemVariants}
-          >
-            <RichText content={description} />
-          </motion.div>
-        )}
+          {description && description.trim() && (
+            <motion.div
+              className="mt-0"
+              variants={itemVariants}
+            >
+              <RichText content={description} />
+            </motion.div>
+          )}
+        </div>
       </div>
 
       {/* Лента контента: Заголовки, Карточки, Метрики */}
       {segments.length > 0 && (
-        <div className="box-content mx-auto px-6 max-w-[956px]">
+        <div className="box-content mx-auto px-[12px] lg:px-0 max-w-[956px]">
           {segments.map((segment, segIdx) => {
             if (segment.type === "heading") {
               return (
@@ -343,18 +348,34 @@ export const GalleryCaseView = ({
       )}
 
       {/* Кнопка CTA: "Появился вопрос?" */}
-      <div className="box-content flex justify-center mx-auto mb-[120px] px-6 max-w-[956px]">
+      <div className="box-content flex justify-center mx-auto mb-[120px] px-[12px] lg:px-0 max-w-[956px]">
         <QuestionCTAButton isEnglish={isEnglish} />
       </div>
 
       {/* Галерея изображений */}
       {images && images.length > 0 && (
         layout === "stack" ? (
-          <StackGallery images={images} title={title} />
+          <StackGallery
+            images={images}
+            title={title}
+            onImageClick={(img) => setFullscreenImage(img)}
+          />
         ) : (
-          <MasonryGallery images={images} title={title} />
+          <MasonryGallery
+            images={images}
+            title={title}
+            onImageClick={(img) => setFullscreenImage(img)}
+          />
         )
       )}
+
+      {/* Полноэкранный просмотр изображений галереи */}
+      <FullscreenImageViewer
+        isOpen={Boolean(fullscreenImage)}
+        onClose={() => setFullscreenImage(null)}
+        imageUrl={fullscreenImage || ""}
+        altText={title}
+      />
     </motion.div>
   );
 };
@@ -364,10 +385,12 @@ function ScaleOnScrollImage({
   image,
   title,
   index,
+  onClick,
 }: {
   image: string;
   title: string;
   index: number;
+  onClick?: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -382,7 +405,8 @@ function ScaleOnScrollImage({
     <motion.div
       ref={ref}
       style={{ scale, opacity }}
-      className="rounded-2xl w-full overflow-hidden origin-center"
+      onClick={onClick}
+      className="rounded-2xl w-full overflow-hidden origin-center cursor-pointer"
     >
       <Image
         src={image}
@@ -397,7 +421,15 @@ function ScaleOnScrollImage({
 }
 
 // Стек - картинки друг под другом с Scale + Opacity эффектом
-function StackGallery({ images, title }: { images: string[]; title: string }) {
+function StackGallery({
+  images,
+  title,
+  onImageClick,
+}: {
+  images: string[];
+  title: string;
+  onImageClick?: (img: string) => void;
+}) {
   return (
     <div className="flex flex-col gap-8 px-4 md:px-16">
       {images.map((image, index) => (
@@ -406,6 +438,7 @@ function StackGallery({ images, title }: { images: string[]; title: string }) {
           image={image}
           title={title}
           index={index}
+          onClick={() => onImageClick?.(image)}
         />
       ))}
     </div>
@@ -413,7 +446,15 @@ function StackGallery({ images, title }: { images: string[]; title: string }) {
 }
 
 // Masonry сетка - колонки с разной высотой
-function MasonryGallery({ images, title }: { images: string[]; title: string }) {
+function MasonryGallery({
+  images,
+  title,
+  onImageClick,
+}: {
+  images: string[];
+  title: string;
+  onImageClick?: (img: string) => void;
+}) {
   return (
     <motion.div
       className={cn(
@@ -426,10 +467,11 @@ function MasonryGallery({ images, title }: { images: string[]; title: string }) 
       {images.map((image, index) => (
         <motion.div
           key={index}
+          onClick={() => onImageClick?.(image)}
           className={cn(
             "mb-4 md:mb-6 break-inside-avoid",
             "overflow-hidden",
-            "bg-transparent"
+            "bg-transparent cursor-pointer rounded-2xl"
           )}
           variants={itemVariants}
         >
@@ -438,7 +480,7 @@ function MasonryGallery({ images, title }: { images: string[]; title: string }) 
             alt={`${title} - изображение ${index + 1}`}
             width={800}
             height={600}
-            className="w-full h-auto"
+            className="w-full h-auto rounded-2xl"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </motion.div>
