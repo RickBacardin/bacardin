@@ -68,6 +68,7 @@ export interface CaseMetricsItem {
 export interface PreviewImage {
   id: string;
   url: string;
+  hdUrl?: string; // Картинка высокого качества (HD/Full-res) для полноэкранного просмотра
   title?: string; // Название для переключателя справа, например "APP", "ERP"
 }
 

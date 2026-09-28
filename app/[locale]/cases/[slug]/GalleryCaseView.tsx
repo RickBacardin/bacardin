@@ -258,7 +258,7 @@ export const GalleryCaseView = ({
           )}
 
           <motion.h1
-            className="font-bold text-[47px] text-foreground leading-[54px] tracking-tight mb-[22px]"
+            className="mb-[22px] font-bold text-[47px] text-foreground leading-[54px] tracking-tight"
             variants={itemVariants}
           >
             {title}
@@ -294,7 +294,7 @@ export const GalleryCaseView = ({
                 <div
                   key={`card-group-${segIdx}`}
                   className={cn(
-                    "gap-[36px] grid mb-[36px]",
+                    "gap-[20px] lg:gap-[36px] grid mb-[20px] lg:mb-[36px]",
                     segment.cards.length === 1 && segment.cards[0].fullWidth
                       ? "grid-cols-1"
                       : segment.cards.length === 1
@@ -317,7 +317,7 @@ export const GalleryCaseView = ({
               return (
                 <div
                   key={`metrics-${segIdx}`}
-                  className="gap-[24px] grid grid-cols-1 md:grid-cols-3 mb-[36px]"
+                  className="gap-[20px] lg:gap-[24px] grid grid-cols-1 md:grid-cols-3 mb-[20px] lg:mb-[36px]"
                 >
                   {segment.item.cards.map((metric, metricIdx) => (
                     <CaseMetricCard
@@ -480,7 +480,7 @@ function MasonryGallery({
             alt={`${title} - изображение ${index + 1}`}
             width={800}
             height={600}
-            className="w-full h-auto rounded-2xl"
+            className="rounded-2xl w-full h-auto"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </motion.div>

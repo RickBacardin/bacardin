@@ -50,16 +50,19 @@ export const FullscreenImageViewer = ({
     smoothScale.set(rawScale);
   }, [rawScale, smoothScale]);
 
-  // Блокировка скролла страницы и обработка Esc
+  // Блокировка скролла страницы с сохранением позиции скролла и обработка Esc
   useEffect(() => {
     if (!isOpen) return;
 
+    const scrollY = window.scrollY;
     const originalOverflow = document.body.style.overflow;
     const originalPosition = document.body.style.position;
+    const originalTop = document.body.style.top;
     const originalWidth = document.body.style.width;
 
     document.body.style.overflow = "hidden";
     document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
     document.body.style.width = "100%";
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -72,7 +75,9 @@ export const FullscreenImageViewer = ({
     return () => {
       document.body.style.overflow = originalOverflow;
       document.body.style.position = originalPosition;
+      document.body.style.top = originalTop;
       document.body.style.width = originalWidth;
+      window.scrollTo(0, scrollY);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);

@@ -114,8 +114,12 @@ export const CasePreview = ({
       ) : item.variant === "slideshow" ? (
         /* Режим "Гифка": мгновенное переключение без фейдов и без схлопывания высоты */
         <div
-          className="relative w-full overflow-hidden rounded-2xl cursor-pointer"
-          onClick={() => setFullscreenImage(activeImage.url)}
+          className="relative rounded-2xl w-full overflow-hidden cursor-pointer md:cursor-default"
+          onClick={() => {
+            if (typeof window !== "undefined" && window.innerWidth < 768) {
+              setFullscreenImage(activeImage.hdUrl || activeImage.url);
+            }
+          }}
         >
           {images.map((img, idx) => (
             <img
@@ -135,13 +139,17 @@ export const CasePreview = ({
       ) : (
         /* Режим табов: прямое отображение активной картинки */
         <div
-          className="relative w-full overflow-hidden rounded-2xl cursor-pointer"
-          onClick={() => setFullscreenImage(activeImage.url)}
+          className="relative rounded-2xl w-full overflow-hidden cursor-pointer md:cursor-default"
+          onClick={() => {
+            if (typeof window !== "undefined" && window.innerWidth < 768) {
+              setFullscreenImage(activeImage.hdUrl || activeImage.url);
+            }
+          }}
         >
           <img
             src={activeImage.url}
             alt={activeImage.title || item.title || "Preview image"}
-            className="w-full h-auto object-contain select-none block"
+            className="block w-full h-auto object-contain select-none"
           />
         </div>
       )}
@@ -196,7 +204,8 @@ function CaseComparisonSlider({
   };
 
   const handleClick = () => {
-    const currentUrl = activeIndex === 0 ? beforeImage.url : afterImage.url;
+    const activeImg = activeIndex === 0 ? beforeImage : afterImage;
+    const currentUrl = activeImg.hdUrl || activeImg.url;
     if (onOpenFullscreen) {
       onOpenFullscreen(currentUrl);
     }
@@ -213,14 +222,14 @@ function CaseComparisonSlider({
       onMouseLeave={() => setIsHovering(false)}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
-      className="relative w-full overflow-hidden select-none cursor-pointer lg:cursor-ew-resize rounded-xl group"
+      className="group relative rounded-xl w-full overflow-hidden cursor-pointer lg:cursor-ew-resize select-none"
     >
       {/* 1. Базовый слой: картинка "До" (видна слева от разреза на десктопе, либо если активен таб 0) */}
       <img
         src={beforeImage.url}
         alt={beforeImage.title || `${title || "Кейс"} - До`}
         className={cn(
-          "w-full h-auto object-contain select-none pointer-events-none",
+          "w-full h-auto object-contain pointer-events-none select-none",
           activeIndex === 0 ? "block" : "hidden lg:block"
         )}
       />
@@ -228,7 +237,7 @@ function CaseComparisonSlider({
       {/* 2. Верхний слой: картинка "После" (видна справа от разреза на десктопе, либо если активен таб 1) */}
       <div
         className={cn(
-          "w-full h-full pointer-events-none overflow-hidden transition-opacity duration-200",
+          "w-full h-full overflow-hidden transition-opacity duration-200 pointer-events-none",
           "lg:absolute lg:inset-0",
           activeIndex === 1 ? "block" : "hidden lg:block"
         )}
@@ -242,19 +251,19 @@ function CaseComparisonSlider({
         <img
           src={afterImage.url}
           alt={afterImage.title || `${title || "Кейс"} - После`}
-          className="w-full h-auto lg:h-full object-contain select-none pointer-events-none block"
+          className="block w-full h-auto lg:h-full object-contain pointer-events-none select-none"
         />
       </div>
 
       {/* 3. Вертикальная разделительная линия и бегунок при наведении на десктопе */}
       {isHovering && (
         <div
-          className="hidden lg:block absolute top-0 bottom-0 pointer-events-none z-20 w-[2px] bg-white shadow-[0_0_14px_rgba(0,0,0,0.8)]"
+          className="hidden lg:block top-0 bottom-0 z-20 absolute bg-white shadow-[0_0_14px_rgba(0,0,0,0.8)] w-[2px] pointer-events-none"
           style={{ left: `${sliderPos}%` }}
         >
           {/* Бегунок по центру */}
           <div
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white/95 backdrop-blur-md shadow-xl flex items-center justify-center border border-black/10 text-[#1A1A1A] transition-transform active:scale-95"
+            className="top-1/2 absolute flex justify-center items-center bg-white/95 shadow-xl backdrop-blur-md border border-black/10 rounded-full w-8 h-8 text-[#1A1A1A] active:scale-95 transition-transform -translate-x-1/2 -translate-y-1/2"
             style={{
               borderColor: accentColor,
             }}

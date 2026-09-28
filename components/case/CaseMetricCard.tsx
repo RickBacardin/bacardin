@@ -22,7 +22,7 @@ export const CaseMetricCard = ({
   return (
     <motion.div
       className={cn(
-        "border rounded-[24px]",
+        "border rounded-[24px] p-[34px] lg:p-[40px]",
         span === 1 && "col-span-1",
         span === 2 && "col-span-1 md:col-span-2",
         span === 3 && "col-span-1 md:col-span-3",
@@ -31,7 +31,6 @@ export const CaseMetricCard = ({
       style={{
         borderColor: "#272727",
         borderWidth: "3px",
-        padding: "36px 40px 37px 40px",
         backgroundColor: "#16130F",
       }}
       variants={variants}

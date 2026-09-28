@@ -58,11 +58,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Проверяем размер (максимум 10MB)
-    const maxSize = 10 * 1024 * 1024;
+    // Проверяем размер (максимум 50MB для HD картинок)
+    const maxSize = 50 * 1024 * 1024;
     if (file.size > maxSize) {
       return NextResponse.json(
-        { success: false, error: "Файл слишком большой. Максимум 10MB" },
+        { success: false, error: "Файл слишком большой. Максимум 50MB" },
         { status: 400 }
       );
     }

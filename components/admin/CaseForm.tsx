@@ -1556,40 +1556,68 @@ function DraggableStreamItem({
                   </div>
 
                   {/* URL картинки */}
-                  <div className="flex-1 w-full">
-                    <Input
-                      value={img.url}
-                      onChange={(e) => updatePreviewImage(imgIdx, "url", e.target.value)}
-                      placeholder="/uploads/preview.png или https://..."
-                      className="bg-background h-8 font-mono text-xs"
-                    />
-                  </div>
+                  <div className="flex-1 w-full space-y-1.5">
+                    <div className="flex items-center gap-1.5">
+                      <Input
+                        value={img.url}
+                        onChange={(e) => updatePreviewImage(imgIdx, "url", e.target.value)}
+                        placeholder="Стандартная: /uploads/preview.png или https://..."
+                        className="bg-background h-8 font-mono text-xs flex-1"
+                      />
+                      {/* Кнопка загрузки обычного файла */}
+                      <label className="inline-flex justify-center items-center bg-muted hover:bg-muted/80 px-2.5 rounded-md h-8 font-medium text-xs whitespace-nowrap transition-colors cursor-pointer">
+                        <Upload className="mr-1 w-3.5 h-3.5 text-muted-foreground" />
+                        Загрузить
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file || !uploadFile) return;
+                            const path = await uploadFile(file);
+                            if (path) {
+                              updatePreviewImage(imgIdx, "url", path);
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
 
-                  {/* Кнопка загрузки файла */}
-                  <label className="inline-flex justify-center items-center bg-muted hover:bg-muted/80 px-2.5 rounded-md h-8 font-medium text-xs whitespace-nowrap transition-colors cursor-pointer">
-                    <Upload className="mr-1 w-3.5 h-3.5 text-muted-foreground" />
-                    Загрузить
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (!file || !uploadFile) return;
-                        const path = await uploadFile(file);
-                        if (path) {
-                          updatePreviewImage(imgIdx, "url", path);
-                        }
-                      }}
-                    />
-                  </label>
+                    {/* Поле для HD картинки */}
+                    <div className="flex items-center gap-1.5">
+                      <Input
+                        value={img.hdUrl || ""}
+                        onChange={(e) => updatePreviewImage(imgIdx, "hdUrl", e.target.value)}
+                        placeholder="HD / Оригинал (для клика): /uploads/preview-hd.png..."
+                        className="bg-background/80 h-7 font-mono text-[11px] flex-1 text-primary/90"
+                      />
+                      <label className="inline-flex justify-center items-center bg-primary/10 hover:bg-primary/20 text-primary px-2 rounded-md h-7 font-medium text-[11px] whitespace-nowrap transition-colors cursor-pointer">
+                        <Upload className="mr-1 w-3 h-3" />
+                        HD файл
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (!file || !uploadFile) return;
+                            const path = await uploadFile(file);
+                            if (path) {
+                              updatePreviewImage(imgIdx, "hdUrl", path);
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
 
                   {/* Кнопка удаления (только для обычных табов/гифок) */}
                   {!isComparison && (
                     <button
                       type="button"
                       onClick={() => removePreviewImage(imgIdx)}
-                      className="hover:bg-destructive/10 p-1.5 rounded-md text-muted-foreground hover:text-destructive transition-colors"
+                      className="hover:bg-destructive/10 p-1.5 rounded-md text-muted-foreground hover:text-destructive transition-colors self-center"
                     >
                       <X className="w-4 h-4" />
                     </button>
