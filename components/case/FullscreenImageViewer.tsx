@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useSpring } from "framer-motion";
 import { CloseIcon } from "@/components/ui/icons/CloseIcon";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
@@ -23,20 +23,32 @@ export const FullscreenImageViewer = ({
   altText = "Fullscreen view",
 }: FullscreenImageViewerProps) => {
   const [mounted, setMounted] = useState(false);
-  const [scale, setScale] = useState(1);
+  const [rawScale, setRawScale] = useState(3);
+  
+  // Плавный зум через spring с мягким затуханием
+  const smoothScale = useSpring(3, {
+    stiffness: 220,
+    damping: 28,
+  });
+
   const initialDistanceRef = useRef<number | null>(null);
-  const initialScaleRef = useRef<number>(1);
+  const initialScaleRef = useRef<number>(3);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Сброс масштаба при каждом открытии
+  // При открытии сразу ставим начальный зум 3x
   useEffect(() => {
     if (isOpen) {
-      setScale(1);
+      setRawScale(3);
+      smoothScale.jump(3);
     }
-  }, [isOpen, imageUrl]);
+  }, [isOpen, imageUrl, smoothScale]);
+
+  useEffect(() => {
+    smoothScale.set(rawScale);
+  }, [rawScale, smoothScale]);
 
   // Блокировка скролла страницы и обработка Esc
   useEffect(() => {
@@ -65,15 +77,15 @@ export const FullscreenImageViewer = ({
     };
   }, [isOpen, onClose]);
 
-  // Зум колесиком мыши (только от 1x до 5x, не меньше 1x)
+  // Более плавный шаг зума колесиком мыши (1.08x вместо 1.15x)
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    const zoomFactor = e.deltaY < 0 ? 1.15 : 0.85;
-    setScale((prevScale) => Math.min(Math.max(prevScale * zoomFactor, 1), 5));
+    const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+    setRawScale((prevScale) => Math.min(Math.max(prevScale * zoomFactor, 1), 6));
   };
 
-  // Pinch-to-zoom (тач-зум 2 пальцами на мобильных)
+  // Плавный pinch-to-zoom на мобильных
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     if (e.touches.length === 2) {
       const dist = Math.hypot(
@@ -81,7 +93,7 @@ export const FullscreenImageViewer = ({
         e.touches[0].clientY - e.touches[1].clientY
       );
       initialDistanceRef.current = dist;
-      initialScaleRef.current = scale;
+      initialScaleRef.current = rawScale;
     }
   };
 
@@ -93,8 +105,8 @@ export const FullscreenImageViewer = ({
         e.touches[0].clientY - e.touches[1].clientY
       );
       const ratio = currentDist / initialDistanceRef.current;
-      const newScale = Math.min(Math.max(initialScaleRef.current * ratio, 1), 5);
-      setScale(newScale);
+      const newScale = Math.min(Math.max(initialScaleRef.current * ratio, 1), 6);
+      setRawScale(newScale);
     }
   };
 
@@ -111,7 +123,7 @@ export const FullscreenImageViewer = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0.25 }}
           className="fixed inset-0 top-0 right-0 bottom-0 left-0 w-screen h-screen min-h-[100dvh] z-[999] bg-black overflow-hidden select-none touch-none"
         >
           {/* Кнопка закрытия поверх всего */}
@@ -136,8 +148,9 @@ export const FullscreenImageViewer = ({
             <motion.div
               drag
               dragConstraints={false}
-              dragElastic={0}
-              style={{ scale }}
+              dragElastic={0.05}
+              dragTransition={{ power: 0.15, timeConstant: 250 }}
+              style={{ scale: smoothScale }}
               className="relative flex items-center justify-center max-w-none max-h-none"
             >
               <img
