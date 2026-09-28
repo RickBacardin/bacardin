@@ -71,7 +71,7 @@ export const AllCasesButton = ({ locale, totalCount, label }: AllCasesButtonProp
       variants={fadeIn}
       onHoverStart={playHoverSound}
       style={{ perspective: 1000 }}
-      className="mt-[24px]"
+      className="mt-[20px] lg:mt-[24px]"
     >
       <motion.div
         style={{
@@ -105,17 +105,9 @@ export const AllCasesButton = ({ locale, totalCount, label }: AllCasesButtonProp
                 boxShadow: "inset 0 0 50px rgba(255,255,255,0.03)"
               }}
             >
-              {/* Левая часть: иконка + текст */}
+              {/* Левая часть: текст */}
               <div className="flex items-center gap-4">
-                {/* Иконка скрыта на мобильных */}
-                <Image
-                  src="/images/icons/code.svg"
-                  alt="Vibecode кейсы"
-                  width={54}
-                  height={54}
-                  className="hidden md:block flex-shrink-0"
-                />
-                {/* Полный текст на десктопе, короткий на мобильных */}
+                {/* Полный текст от 768px, короткий Vibecode до 768px */}
                 <span
                   className="hidden md:inline font-medium text-[50px] text-muted-foreground leading-[54px]"
                 >
@@ -128,12 +120,21 @@ export const AllCasesButton = ({ locale, totalCount, label }: AllCasesButtonProp
                 </span>
               </div>
 
-              {/* Правая часть: количество (всегда английский шрифт Space Grotesk) */}
-              <span
-                className="font-sans font-medium text-[50px] text-muted-foreground/50 leading-[54px]"
-              >
-                ({totalCount})
-              </span>
+              {/* Правая часть: иконка (скрывается до 768px) и счетчик (скрывается до 640px) */}
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/images/icons/code.svg"
+                  alt="Vibecode"
+                  width={54}
+                  height={54}
+                  className="hidden md:block flex-shrink-0"
+                />
+                <span
+                  className="hidden sm:inline font-sans font-medium text-[50px] text-muted-foreground/50 leading-[54px]"
+                >
+                  ({totalCount})
+                </span>
+              </div>
             </div>
           </div>
         </Link>

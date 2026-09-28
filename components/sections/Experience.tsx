@@ -35,7 +35,7 @@ const ExperienceCard = ({
           transition: { delay: index * 0.1, duration: 0.5 },
         },
       }}
-      className="bg-card px-[40px] pt-[30px] pb-[31px] rounded-4xl"
+      className="bg-card px-[34px] lg:px-[40px] pt-[30px] pb-[31px] rounded-4xl"
       style={{ boxShadow: "inset 0 0 18px rgba(255, 255, 255, 0.04)" }}
     >
       {/* Область с компанией */}
@@ -49,7 +49,8 @@ const ExperienceCard = ({
         />
         <div className="flex flex-col flex-1 min-w-0">
           <h3 className="font-medium text-[28px] text-foreground truncate leading-[26px]">
-            {position} · {company}
+            {position.replace(/^(Principal|Senior|Lead)\s+/i, "")}
+            <span className="hidden sm:inline"> · {company}</span>
           </h3>
           <span className="mt-3 font-medium text-[28px] text-muted-foreground truncate leading-[26px]">
             {dates}
@@ -153,19 +154,19 @@ export const Experience = () => {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
-      className="mt-[40px]"
+      className="mt-[52px] lg:mt-[40px]"
     >
-      <div className="mx-auto px-6 max-w-[1000px] box-content">
+      <div className="mx-auto max-w-[1000px] box-content px-[12px] lg:px-0">
         {/* Заголовок секции */}
         <motion.h2
           variants={fadeIn}
-          className="mb-[32px] font-medium text-[28px] text-muted-foreground leading-[36px]"
+          className="mb-[32px] font-medium text-[28px] text-muted-foreground leading-[36px] px-[12px] lg:px-0"
         >
           {t("title")} <span className="text-foreground">{t("titleHighlight")}</span>
         </motion.h2>
 
         {/* Карточки опыта */}
-        <div className="flex flex-col gap-[36px]">
+        <div className="flex flex-col gap-[20px] lg:gap-[36px]">
           {experiences.map((exp, index) => (
             <ExperienceCard
               key={index}

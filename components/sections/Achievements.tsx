@@ -25,7 +25,7 @@ const AchievementCard = ({ parts, index }: AchievementCardProps) => {
           transition: { delay: index * 0.1, duration: 0.5 },
         },
       }}
-      className="bg-card px-[40px] pt-[30px] pb-[31px] rounded-4xl"
+      className="bg-card px-[34px] lg:px-[40px] pt-[30px] pb-[31px] rounded-4xl"
       style={{ boxShadow: 'inset 0 0 18px rgba(255, 255, 255, 0.04)' }}
     >
       <LaurelIcon size={81} className="mb-[28px]" />
@@ -67,19 +67,19 @@ export const Achievements = () => {
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={staggerContainer}
-      className="mt-[40px]"
+      className="hidden sm:block mt-[52px] lg:mt-[40px]"
     >
-      <div className="mx-auto px-6 max-w-[1000px] box-content">
+      <div className="mx-auto max-w-[1000px] box-content px-[12px] lg:px-0">
         {/* Заголовок секции */}
         <motion.h2
           variants={fadeIn}
-          className="mb-[32px] font-medium text-[28px] text-muted-foreground leading-[36px]"
+          className="mb-[32px] font-medium text-[28px] text-muted-foreground leading-[36px] px-[12px] lg:px-0"
         >
           {t("title")}
         </motion.h2>
 
         {/* Сетка карточек */}
-        <div className="gap-[24px] grid grid-cols-1 md:grid-cols-2">
+        <div className="gap-[20px] lg:gap-[24px] grid grid-cols-1 md:grid-cols-2">
           {strengths.map((parts, index) => (
             <AchievementCard key={index} parts={parts} index={index} />
           ))}

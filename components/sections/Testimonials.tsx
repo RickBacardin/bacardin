@@ -10,18 +10,22 @@ interface TestimonialCardProps {
     avatar: string;
     name: string;
     role: string;
+    mobileRole?: string;
     text: string;
-    link?: { text: string; url: string; previewImage?: string };
+    link?: { text: string; shortText?: string; url: string; previewImage?: string };
     index: number;
+    className?: string;
 }
 
 const TestimonialCard = ({
     avatar,
     name,
     role,
+    mobileRole,
     text,
     link,
     index,
+    className = "",
 }: TestimonialCardProps) => {
     return (
         <motion.div
@@ -33,7 +37,7 @@ const TestimonialCard = ({
                     transition: { delay: index * 0.1, duration: 0.5 },
                 },
             }}
-            className="bg-card px-[40px] pt-[30px] pb-[31px] rounded-4xl"
+            className={`bg-card px-[34px] lg:px-[40px] pt-[30px] pb-[31px] rounded-4xl ${className}`}
             style={{ boxShadow: "inset 0 0 18px rgba(255, 255, 255, 0.04)" }}
         >
             {/* Верхний блок с аватаром и информацией */}
@@ -51,7 +55,14 @@ const TestimonialCard = ({
                         {name}
                     </h3>
                     <span className="mt-3 font-medium text-[28px] text-muted-foreground truncate leading-[26px]">
-                        {role}
+                        {mobileRole ? (
+                            <>
+                                <span className="sm:hidden">{mobileRole}</span>
+                                <span className="hidden sm:inline">{role}</span>
+                            </>
+                        ) : (
+                            role
+                        )}
                     </span>
                 </div>
             </div>
@@ -70,7 +81,14 @@ const TestimonialCard = ({
                         altText={`Превью: ${link.text}`}
                         isExternal={!link.url.startsWith("/")}
                     >
-                        {link.text}
+                        {link.shortText ? (
+                            <>
+                                <span className="lg:hidden">{link.shortText}</span>
+                                <span className="hidden lg:inline">{link.text}</span>
+                            </>
+                        ) : (
+                            link.text
+                        )}
                     </LinkPreview>
                 </div>
             )}
@@ -85,16 +103,19 @@ export const Testimonials = () => {
         avatar: string;
         name: string;
         role: string;
+        mobileRole?: string;
         text: string;
-        link?: { text: string; url: string; previewImage?: string };
+        link?: { text: string; shortText?: string; url: string; previewImage?: string };
     }> = [
             {
                 avatar: "/images/Sber.jpg",
                 name: t("items.denis.name"),
                 role: t("items.denis.role"),
+                mobileRole: "Design Lead",
                 text: t("items.denis.text"),
                 link: {
                     text: t("items.denis.link"),
+                    shortText: "Рекоменд. письмо",
                     url: t("items.denis.linkUrl"),
                     previewImage: "/images/letter.jpg",
                 },
@@ -113,28 +134,30 @@ export const Testimonials = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="mt-[40px]"
+            className="mt-[52px] lg:mt-[40px]"
         >
-            <div className="mx-auto px-6 max-w-[1000px] box-content">
+            <div className="mx-auto max-w-[1000px] box-content px-[12px] lg:px-0">
                 {/* Заголовок секции */}
                 <motion.h2
                     variants={fadeIn}
-                    className="mb-[32px] font-medium text-[28px] text-muted-foreground leading-[36px]"
+                    className="mb-[32px] font-medium text-[28px] text-muted-foreground leading-[36px] px-[12px] lg:px-0"
                 >
                     {t("title")}
                 </motion.h2>
 
-                {/* Сетка карточек */}
-                <div className="gap-[24px] grid grid-cols-1 md:grid-cols-2">
+                {/* Сетка карточек: 1 колонка до 1024px, 2 колонки от 1024px */}
+                <div className="gap-[20px] lg:gap-[24px] grid grid-cols-1 lg:grid-cols-2">
                     {testimonials.map((item, index) => (
                         <TestimonialCard
                             key={index}
                             avatar={item.avatar}
                             name={item.name}
                             role={item.role}
+                            mobileRole={item.mobileRole}
                             text={item.text}
                             link={item.link}
                             index={index}
+                            className={index === 1 ? "hidden sm:block" : ""}
                         />
                     ))}
                 </div>

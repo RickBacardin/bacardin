@@ -100,7 +100,7 @@ export const CaseCard = ({ caseItem, locale, uiElementLabel }: CaseCardProps) =>
 
   const cardContent = (
     <article 
-      className={`relative h-[380px] rounded-[28px] p-3 flex flex-col gap-3 group bg-[#1F1C18] overflow-hidden ${
+      className={`relative h-[380px] sm:h-[500px] md:h-[380px] rounded-[28px] p-3 flex flex-col gap-3 group bg-[#1F1C18] overflow-hidden ${
         isInProgress ? "cursor-default select-none" : "cursor-pointer"
       }`}
     >
