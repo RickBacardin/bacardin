@@ -253,15 +253,42 @@
     "category": "design",
     "coverImage": "/images/cases/1768245632342-6iywil.png",
     "images": [
-      "/images/cases/1790669693659-2cd077.png",
-      "/images/cases/1790669693660-1k4kg9.png",
-      "/images/cases/1790669693669-2nnz8t.png",
-      "/images/cases/1790669693674-4jgls4.png",
-      "/images/cases/1790669693717-k6zrkc.png",
-      "/images/cases/1790669693716-tmos6m.png",
-      "/images/cases/1790669693810-pewlil.png",
-      "/images/cases/1790669693793-jmy0k6.png",
-      "/images/cases/1790669693791-vv4r5t.png"
+      {
+        "url": "/images/cases/1790669693659-2cd077.png",
+        "hdUrl": "/images/cases/1790671365821-rzg7z5.webp"
+      },
+      {
+        "url": "/images/cases/1790669693660-1k4kg9.png",
+        "hdUrl": "/images/cases/1790671373586-pzzdim.webp"
+      },
+      {
+        "url": "/images/cases/1790669693669-2nnz8t.png",
+        "hdUrl": "/images/cases/1790671378079-z1sob4.webp"
+      },
+      {
+        "url": "/images/cases/1790669693674-4jgls4.png",
+        "hdUrl": "/images/cases/1790671382344-gsjcpn.webp"
+      },
+      {
+        "url": "/images/cases/1790669693717-k6zrkc.png",
+        "hdUrl": "/images/cases/1790671399814-3ttvl4.webp"
+      },
+      {
+        "url": "/images/cases/1790669693716-tmos6m.png",
+        "hdUrl": "/images/cases/1790671406272-67ptv4.webp"
+      },
+      {
+        "url": "/images/cases/1790669693810-pewlil.png",
+        "hdUrl": "/images/cases/1790671412610-33wz7s.webp"
+      },
+      {
+        "url": "/images/cases/1790669693793-jmy0k6.png",
+        "hdUrl": "/images/cases/1790671424215-izezx0.webp"
+      },
+      {
+        "url": "/images/cases/1790669693791-vv4r5t.png",
+        "hdUrl": "/images/cases/1790671428927-aumo61.webp"
+      }
     ],
     "componentUrl": "",
     "content": "",
@@ -269,7 +296,7 @@
     "featuredOnHome": true,
     "homeOrder": 1,
     "createdAt": "2026-01-11T14:42:12.875Z",
-    "updatedAt": "2026-09-29T08:15:20.453Z",
+    "updatedAt": "2026-09-29T08:43:53.132Z",
     "galleryLayout": "stack",
     "title_en": "ISU Redesign for Executives",
     "description_en": "ISU is a B2E product built from 5 modules, where Sber's executives manage tasks, knowledge, goals and strategic planning for the entire top management team.",
@@ -856,16 +883,46 @@
     "category": "design",
     "coverImage": "/images/cases/1768249470031-7esw3g.png",
     "images": [
-      "/images/cases/1790669870272-lr2t6d.png",
-      "/images/cases/1790669870277-ca7ia7.png",
-      "/images/cases/1790669870280-qbl205.png",
-      "/images/cases/1790669870301-uey55o.png",
-      "/images/cases/1790669870327-9mr2ih.png",
-      "/images/cases/1790669870374-e4l2j8.png",
-      "/images/cases/1790669870319-twwvaq.png",
-      "/images/cases/1790669870351-avoewe.png",
-      "/images/cases/1790669870353-g1nl9r.png",
-      "/images/cases/1790669870357-jqlznr.png"
+      {
+        "url": "/images/cases/1790670337234-9dcl1o.png",
+        "hdUrl": "/images/cases/1790671450912-0bfc24.webp"
+      },
+      {
+        "url": "/images/cases/1790670337246-kcnyp2.png",
+        "hdUrl": "/images/cases/1790671456459-nyom6s.webp"
+      },
+      {
+        "url": "/images/cases/1790670337254-xs9z2h.png",
+        "hdUrl": "/images/cases/1790671464124-pn56lx.webp"
+      },
+      {
+        "url": "/images/cases/1790670337236-ducqwt.png",
+        "hdUrl": "/images/cases/1790671468974-r0thkh.webp"
+      },
+      {
+        "url": "/images/cases/1790670337264-jk4s4f.png",
+        "hdUrl": "/images/cases/1790671472473-0d796s.webp"
+      },
+      {
+        "url": "/images/cases/1790670337296-ob8j9e.png",
+        "hdUrl": "/images/cases/1790671479809-wh3648.webp"
+      },
+      {
+        "url": "/images/cases/1790670337258-5k0p8a.png",
+        "hdUrl": "/images/cases/1790671483923-mw4ypy.webp"
+      },
+      {
+        "url": "/images/cases/1790670337284-0zgu6e.png",
+        "hdUrl": "/images/cases/1790671490262-501kge.webp"
+      },
+      {
+        "url": "/images/cases/1790670337284-zq26k6.png",
+        "hdUrl": "/images/cases/1790671499361-ri3h3r.webp"
+      },
+      {
+        "url": "/images/cases/1790670337291-apfmca.png",
+        "hdUrl": "/images/cases/1790671508994-6m3osw.webp"
+      }
     ],
     "galleryLayout": "masonry",
     "componentUrl": "",
@@ -874,7 +931,7 @@
     "featuredOnHome": true,
     "homeOrder": 1,
     "createdAt": "2026-01-12T13:15:03.521Z",
-    "updatedAt": "2026-09-29T08:18:13.473Z",
+    "updatedAt": "2026-09-29T08:45:10.695Z",
     "title_en": "Fitness App Design",
     "description_en": "Mindful Fitness App for conscious workouts. A B2C startup integrating physical activity with mental health tracking to reduce user churn",
     "vibecodeOrder": null,
