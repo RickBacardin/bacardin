@@ -21,6 +21,7 @@ import { CaseCard } from "@/components/case/CaseCard";
 import { CaseMetricCard } from "@/components/case/CaseMetricCard";
 import { CasePreview } from "@/components/case/CasePreview";
 import { FullscreenImageViewer } from "@/components/case/FullscreenImageViewer";
+import { GalleryFirstImageHint, markGalleryHintAsSeen } from "@/components/case/GalleryFirstImageHint";
 import type { CaseGalleryImage } from "@/types";
 
 interface GalleryCaseViewProps {
@@ -359,13 +360,21 @@ export const GalleryCaseView = ({
           <StackGallery
             images={images}
             title={title}
-            onImageClick={(displayUrl, hdUrl) => setFullscreenImage(hdUrl || displayUrl)}
+            isEnglish={isEnglish}
+            onImageClick={(displayUrl, hdUrl) => {
+              markGalleryHintAsSeen();
+              setFullscreenImage(hdUrl || displayUrl);
+            }}
           />
         ) : (
           <MasonryGallery
             images={images}
             title={title}
-            onImageClick={(displayUrl, hdUrl) => setFullscreenImage(hdUrl || displayUrl)}
+            isEnglish={isEnglish}
+            onImageClick={(displayUrl, hdUrl) => {
+              markGalleryHintAsSeen();
+              setFullscreenImage(hdUrl || displayUrl);
+            }}
           />
         )
       )}
@@ -386,11 +395,13 @@ function ScaleOnScrollImage({
   image,
   title,
   index,
+  isEnglish,
   onClick,
 }: {
   image: string;
   title: string;
   index: number;
+  isEnglish?: boolean;
   onClick?: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -407,7 +418,7 @@ function ScaleOnScrollImage({
       ref={ref}
       style={{ scale, opacity }}
       onClick={onClick}
-      className="rounded-2xl w-full overflow-hidden origin-center cursor-pointer"
+      className="relative rounded-2xl w-full overflow-hidden origin-center cursor-pointer"
     >
       <Image
         src={image}
@@ -417,6 +428,9 @@ function ScaleOnScrollImage({
         className="w-full h-auto"
         sizes="(max-width: 768px) 100vw, calc(100vw - 128px)"
       />
+      {index === 0 && (
+        <GalleryFirstImageHint containerRef={ref} isEnglish={isEnglish} />
+      )}
     </motion.div>
   );
 }
@@ -425,10 +439,12 @@ function ScaleOnScrollImage({
 function StackGallery({
   images,
   title,
+  isEnglish,
   onImageClick,
 }: {
   images: (string | CaseGalleryImage)[];
   title: string;
+  isEnglish?: boolean;
   onImageClick?: (url: string, hdUrl?: string) => void;
 }) {
   return (
@@ -444,6 +460,7 @@ function StackGallery({
             image={url}
             title={title}
             index={index}
+            isEnglish={isEnglish}
             onClick={() => onImageClick?.(url, hdUrl)}
           />
         );
@@ -456,12 +473,16 @@ function StackGallery({
 function MasonryGallery({
   images,
   title,
+  isEnglish,
   onImageClick,
 }: {
   images: (string | CaseGalleryImage)[];
   title: string;
+  isEnglish?: boolean;
   onImageClick?: (url: string, hdUrl?: string) => void;
 }) {
+  const firstItemRef = useRef<HTMLDivElement>(null);
+
   return (
     <motion.div
       className={cn(
@@ -476,12 +497,15 @@ function MasonryGallery({
         const hdUrl = typeof item === "string" ? undefined : item.hdUrl;
         if (!url) return null;
 
+        const isFirst = index === 0;
+
         return (
           <motion.div
             key={index}
+            ref={isFirst ? firstItemRef : undefined}
             onClick={() => onImageClick?.(url, hdUrl)}
             className={cn(
-              "mb-4 md:mb-6 break-inside-avoid",
+              "relative mb-4 md:mb-6 break-inside-avoid",
               "overflow-hidden",
               "bg-transparent cursor-pointer rounded-2xl"
             )}
@@ -495,6 +519,9 @@ function MasonryGallery({
               className="rounded-2xl w-full h-auto"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
+            {isFirst && (
+              <GalleryFirstImageHint containerRef={firstItemRef} isEnglish={isEnglish} />
+            )}
           </motion.div>
         );
       })}
