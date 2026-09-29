@@ -45,6 +45,7 @@ import type {
   CasePreviewItem,
   PreviewImage,
   MetricSubCard,
+  CaseGalleryImage,
 } from "@/types";
 
 interface CaseFormProps {
@@ -67,7 +68,7 @@ export interface CaseFormData {
   date: string;
   category: string;
   coverImage: string;
-  images: string[];
+  images: (string | CaseGalleryImage)[];
   galleryLayout: GalleryLayout;
   componentUrl?: string;
   previewHeight?: number;
@@ -393,13 +394,28 @@ export function CaseForm({
 
     setFormData((prev) => ({
       ...prev,
-      images: [...prev.images, ...validPaths],
+      images: [
+        ...prev.images,
+        ...validPaths.map((path) => ({ url: path, hdUrl: "" })),
+      ],
     }));
 
     setIsUploading(false);
     if (galleryInputRef.current) {
       galleryInputRef.current.value = "";
     }
+  };
+
+  const updateGalleryImage = (index: number, field: "url" | "hdUrl", value: string) => {
+    setFormData((prev) => {
+      const newImages = [...prev.images];
+      const current = newImages[index];
+      const currentObj: CaseGalleryImage =
+        typeof current === "string" ? { url: current, hdUrl: "" } : { ...current };
+
+      newImages[index] = { ...currentObj, [field]: value };
+      return { ...prev, images: newImages };
+    });
   };
 
   const removeImage = (index: number) => {
@@ -1089,7 +1105,7 @@ export function CaseForm({
               {formData.images.length > 0 && (
                 <div className="mt-3">
                   <p className="mb-2 text-muted-foreground text-xs">
-                    Перетаскивайте для изменения порядка
+                    Перетаскивайте за ручку для изменения порядка. Для каждого изображения можно задать HD версию.
                   </p>
                   <Reorder.Group
                     axis="y"
@@ -1097,13 +1113,16 @@ export function CaseForm({
                     onReorder={(newOrder) =>
                       setFormData((prev) => ({ ...prev, images: newOrder }))
                     }
-                    className="space-y-2"
+                    className="space-y-3"
                   >
-                    {formData.images.map((img) => (
+                    {formData.images.map((img, idx) => (
                       <DraggableImageItem
-                        key={img}
+                        key={typeof img === "string" ? `${img}-${idx}` : `${img.url}-${idx}`}
                         image={img}
-                        onRemove={() => removeImage(formData.images.indexOf(img))}
+                        index={idx}
+                        uploadFile={uploadFile}
+                        onUpdate={(field, value) => updateGalleryImage(idx, field, value)}
+                        onRemove={() => removeImage(idx)}
                       />
                     ))}
                   </Reorder.Group>
@@ -1760,14 +1779,25 @@ function DraggableStreamItem({
   );
 }
 
-// Перетаскиваемый элемент изображения
 interface DraggableImageItemProps {
-  image: string;
+  image: string | CaseGalleryImage;
+  index: number;
+  uploadFile?: (file: File) => Promise<string | null>;
+  onUpdate: (field: "url" | "hdUrl", value: string) => void;
   onRemove: () => void;
 }
 
-function DraggableImageItem({ image, onRemove }: DraggableImageItemProps) {
+function DraggableImageItem({
+  image,
+  index,
+  uploadFile,
+  onUpdate,
+  onRemove,
+}: DraggableImageItemProps) {
   const controls = useDragControls();
+
+  const url = typeof image === "string" ? image : image.url;
+  const hdUrl = typeof image === "string" ? "" : (image.hdUrl || "");
 
   return (
     <Reorder.Item
@@ -1776,34 +1806,97 @@ function DraggableImageItem({ image, onRemove }: DraggableImageItemProps) {
       dragControls={controls}
       className="group"
     >
-      <div className="flex items-center gap-3 bg-background p-2 border border-border hover:border-primary/50 rounded-lg transition-colors">
-        <div className="flex-shrink-0 bg-muted rounded-md w-16 h-16 overflow-hidden">
-          <img
-            src={image}
-            alt="Preview"
-            className="w-full h-full object-cover"
-          />
+      <div className="flex sm:flex-row flex-col sm:items-center gap-3 bg-background p-3 border border-border hover:border-primary/50 rounded-lg transition-colors">
+        {/* Превью картинки */}
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex-shrink-0 bg-muted border border-border/50 rounded-md w-16 h-16 overflow-hidden flex items-center justify-center">
+            {url ? (
+              <img
+                src={url}
+                alt={`Image ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <ImageIcon className="w-6 h-6 text-muted-foreground/40" />
+            )}
+          </div>
         </div>
 
-        <div className="flex-1 min-w-0">
-          <p className="font-mono text-muted-foreground text-xs truncate">
-            {image.split("/").pop()}
-          </p>
+        {/* Поля ввода URL и HD URL */}
+        <div className="flex-1 w-full space-y-1.5 min-w-0">
+          {/* Стандартный URL */}
+          <div className="flex items-center gap-1.5">
+            <Input
+              value={url}
+              onChange={(e) => onUpdate("url", e.target.value)}
+              placeholder="Стандартная: /uploads/img.png или https://..."
+              className="bg-background h-8 font-mono text-xs flex-1"
+            />
+            <label className="inline-flex justify-center items-center bg-muted hover:bg-muted/80 px-2.5 rounded-md h-8 font-medium text-xs whitespace-nowrap transition-colors cursor-pointer">
+              <Upload className="mr-1 w-3.5 h-3.5 text-muted-foreground" />
+              Загрузить
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file || !uploadFile) return;
+                  const path = await uploadFile(file);
+                  if (path) {
+                    onUpdate("url", path);
+                  }
+                }}
+              />
+            </label>
+          </div>
+
+          {/* HD URL */}
+          <div className="flex items-center gap-1.5">
+            <Input
+              value={hdUrl}
+              onChange={(e) => onUpdate("hdUrl", e.target.value)}
+              placeholder="HD / Оригинал (для клика): /uploads/img-hd.png..."
+              className="bg-background/80 h-7 font-mono text-[11px] flex-1 text-primary/90"
+            />
+            <label className="inline-flex justify-center items-center bg-primary/10 hover:bg-primary/20 text-primary px-2 rounded-md h-7 font-medium text-[11px] whitespace-nowrap transition-colors cursor-pointer">
+              <Upload className="mr-1 w-3 h-3" />
+              HD файл
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file || !uploadFile) return;
+                  const path = await uploadFile(file);
+                  if (path) {
+                    onUpdate("hdUrl", path);
+                  }
+                }}
+              />
+            </label>
+          </div>
         </div>
 
-        <button
-          type="button"
-          onClick={onRemove}
-          className="hover:bg-destructive/10 p-1.5 rounded-md text-muted-foreground hover:text-destructive transition-colors"
-        >
-          <X className="w-4 h-4" />
-        </button>
+        {/* Действия: Удалить и Перетаскивание */}
+        <div className="flex items-center gap-1 sm:self-center self-end flex-shrink-0">
+          <button
+            type="button"
+            onClick={onRemove}
+            className="hover:bg-destructive/10 p-1.5 rounded-md text-muted-foreground hover:text-destructive transition-colors"
+            title="Удалить"
+          >
+            <X className="w-4 h-4" />
+          </button>
 
-        <div
-          onPointerDown={(e) => controls.start(e)}
-          className="hover:bg-muted p-1.5 rounded-md cursor-grab active:cursor-grabbing"
-        >
-          <GripVertical className="w-4 h-4 text-muted-foreground" />
+          <div
+            onPointerDown={(e) => controls.start(e)}
+            className="hover:bg-muted p-1.5 rounded-md cursor-grab active:cursor-grabbing"
+            title="Перетащить"
+          >
+            <GripVertical className="w-4 h-4 text-muted-foreground" />
+          </div>
         </div>
       </div>
     </Reorder.Item>

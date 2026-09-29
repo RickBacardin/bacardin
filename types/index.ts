@@ -72,6 +72,12 @@ export interface PreviewImage {
   title?: string; // Название для переключателя справа, например "APP", "ERP"
 }
 
+// Элемент изображения в галерее кейса
+export interface CaseGalleryImage {
+  url: string;
+  hdUrl?: string; // Картинка высокого качества (HD/Full-res) для полноэкранного просмотра
+}
+
 // Режимы отображения превью
 export type PreviewVariant = "tabs" | "slideshow" | "comparison";
 
@@ -115,7 +121,7 @@ export interface Case {
   category: string;
   coverImage: string;
   // Для галереи
-  images: string[];
+  images: (string | CaseGalleryImage)[];
   galleryLayout?: GalleryLayout; // "stack" по умолчанию
   // Для компонента (iframe URL)
   componentUrl?: string;
@@ -155,7 +161,7 @@ export interface CreateCaseData {
   date: string;
   category: string;
   coverImage: string;
-  images?: string[];
+  images?: (string | CaseGalleryImage)[];
   galleryLayout?: GalleryLayout;
   componentUrl?: string;
   tags?: string[];
@@ -191,7 +197,7 @@ export interface UpdateCaseData {
   date?: string;
   category?: string;
   coverImage?: string;
-  images?: string[];
+  images?: (string | CaseGalleryImage)[];
   galleryLayout?: GalleryLayout;
   componentUrl?: string;
   tags?: string[];

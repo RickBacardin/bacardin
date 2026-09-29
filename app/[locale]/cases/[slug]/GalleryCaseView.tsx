@@ -21,13 +21,14 @@ import { CaseCard } from "@/components/case/CaseCard";
 import { CaseMetricCard } from "@/components/case/CaseMetricCard";
 import { CasePreview } from "@/components/case/CasePreview";
 import { FullscreenImageViewer } from "@/components/case/FullscreenImageViewer";
+import type { CaseGalleryImage } from "@/types";
 
 interface GalleryCaseViewProps {
   title: string;
   description?: string;
   logo?: string;
   accentColor?: string;
-  images: string[];
+  images: (string | CaseGalleryImage)[];
   layout?: GalleryLayout;
   items?: CaseItem[];
   highlights?: HighlightCard[]; // @deprecated
@@ -358,13 +359,13 @@ export const GalleryCaseView = ({
           <StackGallery
             images={images}
             title={title}
-            onImageClick={(img) => setFullscreenImage(img)}
+            onImageClick={(displayUrl, hdUrl) => setFullscreenImage(hdUrl || displayUrl)}
           />
         ) : (
           <MasonryGallery
             images={images}
             title={title}
-            onImageClick={(img) => setFullscreenImage(img)}
+            onImageClick={(displayUrl, hdUrl) => setFullscreenImage(hdUrl || displayUrl)}
           />
         )
       )}
@@ -426,21 +427,27 @@ function StackGallery({
   title,
   onImageClick,
 }: {
-  images: string[];
+  images: (string | CaseGalleryImage)[];
   title: string;
-  onImageClick?: (img: string) => void;
+  onImageClick?: (url: string, hdUrl?: string) => void;
 }) {
   return (
     <div className="flex flex-col gap-8 px-4 md:px-16">
-      {images.map((image, index) => (
-        <ScaleOnScrollImage
-          key={index}
-          image={image}
-          title={title}
-          index={index}
-          onClick={() => onImageClick?.(image)}
-        />
-      ))}
+      {images.map((item, index) => {
+        const url = typeof item === "string" ? item : item.url;
+        const hdUrl = typeof item === "string" ? undefined : item.hdUrl;
+        if (!url) return null;
+
+        return (
+          <ScaleOnScrollImage
+            key={index}
+            image={url}
+            title={title}
+            index={index}
+            onClick={() => onImageClick?.(url, hdUrl)}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -451,9 +458,9 @@ function MasonryGallery({
   title,
   onImageClick,
 }: {
-  images: string[];
+  images: (string | CaseGalleryImage)[];
   title: string;
-  onImageClick?: (img: string) => void;
+  onImageClick?: (url: string, hdUrl?: string) => void;
 }) {
   return (
     <motion.div
@@ -464,27 +471,33 @@ function MasonryGallery({
       )}
       variants={containerVariants}
     >
-      {images.map((image, index) => (
-        <motion.div
-          key={index}
-          onClick={() => onImageClick?.(image)}
-          className={cn(
-            "mb-4 md:mb-6 break-inside-avoid",
-            "overflow-hidden",
-            "bg-transparent cursor-pointer rounded-2xl"
-          )}
-          variants={itemVariants}
-        >
-          <Image
-            src={image}
-            alt={`${title} - изображение ${index + 1}`}
-            width={800}
-            height={600}
-            className="rounded-2xl w-full h-auto"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        </motion.div>
-      ))}
+      {images.map((item, index) => {
+        const url = typeof item === "string" ? item : item.url;
+        const hdUrl = typeof item === "string" ? undefined : item.hdUrl;
+        if (!url) return null;
+
+        return (
+          <motion.div
+            key={index}
+            onClick={() => onImageClick?.(url, hdUrl)}
+            className={cn(
+              "mb-4 md:mb-6 break-inside-avoid",
+              "overflow-hidden",
+              "bg-transparent cursor-pointer rounded-2xl"
+            )}
+            variants={itemVariants}
+          >
+            <Image
+              src={url}
+              alt={`${title} - изображение ${index + 1}`}
+              width={800}
+              height={600}
+              className="rounded-2xl w-full h-auto"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </motion.div>
+        );
+      })}
     </motion.div>
   );
 }
