@@ -896,8 +896,8 @@
         "hdUrl": "/images/cases/1790671456459-nyom6s.webp"
       },
       {
-        "url": "/images/cases/1790670337236-ducqwt.png",
-        "hdUrl": "/images/cases/1790671468974-r0thkh.webp"
+        "url": "/images/cases/1790670337258-5k0p8a.png",
+        "hdUrl": "/images/cases/1790671483923-mw4ypy.webp"
       },
       {
         "url": "/images/cases/1790670337264-jk4s4f.png",
@@ -906,10 +906,6 @@
       {
         "url": "/images/cases/1790670337296-ob8j9e.png",
         "hdUrl": "/images/cases/1790671479809-wh3648.webp"
-      },
-      {
-        "url": "/images/cases/1790670337258-5k0p8a.png",
-        "hdUrl": "/images/cases/1790671483923-mw4ypy.webp"
       },
       {
         "url": "/images/cases/1790670337284-0zgu6e.png",
@@ -922,6 +918,10 @@
       {
         "url": "/images/cases/1790670337291-apfmca.png",
         "hdUrl": "/images/cases/1790671508994-6m3osw.webp"
+      },
+      {
+        "url": "/images/cases/1790670337236-ducqwt.png",
+        "hdUrl": "/images/cases/1790671468974-r0thkh.webp"
       }
     ],
     "galleryLayout": "masonry",
@@ -931,7 +931,7 @@
     "featuredOnHome": true,
     "homeOrder": 1,
     "createdAt": "2026-01-12T13:15:03.521Z",
-    "updatedAt": "2026-09-29T10:18:50.978Z",
+    "updatedAt": "2026-09-29T10:26:14.310Z",
     "title_en": "Fitness App Design",
     "description_en": "Mindful Fitness App for conscious workouts. A B2C startup integrating physical activity with mental health tracking to reduce user churn",
     "vibecodeOrder": null,
